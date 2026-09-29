@@ -25,7 +25,8 @@ myProxySpec: #HTTPDatasourceSpec & {
 	proxy: http.#Proxy & {
 		kind: "HTTPProxy"
 		spec: {
-			url: "https://prometheus.demo.prometheus.io"
+			url:     "https://prometheus.demo.prometheus.io"
+			timeout: "1m30s"
 			allowedEndpoints: [
 				{
 					endpointPattern: "/api/v1/labels"
@@ -56,6 +57,16 @@ myDropHeadersProxySpec: #HTTPDatasourceSpec & {
 		spec: {
 			url:         "https://prometheus.demo.prometheus.io"
 			dropHeaders: ["Origin", "Referer"]
+		}
+	}
+}
+
+myZeroTimeoutProxySpec: #HTTPDatasourceSpec & {
+	proxy: http.#Proxy & {
+		kind: "HTTPProxy"
+		spec: {
+			url:     "https://prometheus.demo.prometheus.io"
+			timeout: "0s"
 		}
 	}
 }

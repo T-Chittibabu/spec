@@ -73,6 +73,9 @@ func (h *AllowedEndpoint) validate() error {
 type Config struct {
 	// URL is the url required to contact the datasource
 	URL *common.URL `json:"url" yaml:"url"`
+	// Timeout is the maximum amount of time allowed to establish a connection to the datasource.
+	// When not set or set to 0, Perses uses the connection timeout from its server configuration.
+	Timeout common.DurationString `json:"timeout,omitempty" yaml:"timeout,omitempty"`
 	// AllowedEndpoints is a list of tuple of http method and http endpoint that will be accessible.
 	// If not set, then everything is accessible.
 	AllowedEndpoints []AllowedEndpoint `json:"allowedEndpoints,omitempty" yaml:"allowedEndpoints,omitempty"`
