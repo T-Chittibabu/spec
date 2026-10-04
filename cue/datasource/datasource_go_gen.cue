@@ -31,3 +31,8 @@ import (
 // because most of the time developers do not need more field than the two proposed.
 // If you need more, define your own struct and use it in your plugin implementation.
 #SQLDatasourceSpec: _
+
+// CloudWatchDatasourceSpec is the struct that can be used to define a CloudWatch Datasource plugin.
+// To be used when implementing a plugin, and you want to provide the associated go-sdk.
+// The Perses server signs the CloudWatch requests, so the proxy is mandatory.
+#CloudWatchDatasourceSpec: _

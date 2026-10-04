@@ -15,10 +15,13 @@ package datasource
 
 import (
 	"github.com/perses/spec/cue/common"
+	"github.com/perses/spec/cue/datasource/proxy/cloudwatch"
 	"github.com/perses/spec/cue/datasource/proxy/sql"
 	"github.com/perses/spec/cue/datasource/proxy/http"
 )
 
 #SQLDatasourceSpec: { proxy: sql.#Proxy }
+
+#CloudWatchDatasourceSpec: { proxy: cloudwatch.#Proxy }
 
 #HTTPDatasourceSpec: { directUrl: common.#URL } | { proxy: http.#Proxy }

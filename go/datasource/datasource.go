@@ -18,6 +18,7 @@ import (
 	"fmt"
 
 	"github.com/perses/spec/go/common"
+	"github.com/perses/spec/go/datasource/proxy/cloudwatch"
 	"github.com/perses/spec/go/datasource/proxy/http"
 	"github.com/perses/spec/go/datasource/proxy/sql"
 	"github.com/perses/spec/go/plugin"
@@ -113,6 +114,46 @@ func (s *SQLDatasourceSpec) UnmarshalYAML(unmarshal func(interface{}) error) err
 }
 
 func (s *SQLDatasourceSpec) validate() error {
+	if s.Proxy == nil {
+		return fmt.Errorf("proxy cannot be empty")
+	}
+	return nil
+}
+
+// CloudWatchDatasourceSpec is the struct that can be used to define a CloudWatch Datasource plugin.
+// To be used when implementing a plugin, and you want to provide the associated go-sdk.
+// The Perses server signs the CloudWatch requests, so the proxy is mandatory.
+type CloudWatchDatasourceSpec struct {
+	Proxy *cloudwatch.Proxy `json:"proxy" yaml:"proxy"`
+}
+
+func (s *CloudWatchDatasourceSpec) UnmarshalJSON(data []byte) error {
+	type plain CloudWatchDatasourceSpec
+	var tmp CloudWatchDatasourceSpec
+	if err := json.Unmarshal(data, (*plain)(&tmp)); err != nil {
+		return err
+	}
+	if err := (&tmp).validate(); err != nil {
+		return err
+	}
+	*s = tmp
+	return nil
+}
+
+func (s *CloudWatchDatasourceSpec) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var tmp CloudWatchDatasourceSpec
+	type plain CloudWatchDatasourceSpec
+	if err := unmarshal((*plain)(&tmp)); err != nil {
+		return err
+	}
+	if err := (&tmp).validate(); err != nil {
+		return err
+	}
+	*s = tmp
+	return nil
+}
+
+func (s *CloudWatchDatasourceSpec) validate() error {
 	if s.Proxy == nil {
 		return fmt.Errorf("proxy cannot be empty")
 	}

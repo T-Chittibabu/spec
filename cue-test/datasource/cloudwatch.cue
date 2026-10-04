@@ -11,7 +11,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export * from './datasource';
-export * from './proxy/cloudwatch';
-export * from './proxy/http';
-export * from './proxy/sql';
+package datasource
+
+import (
+	"github.com/perses/spec/cue/datasource/proxy/cloudwatch"
+)
+
+myCloudWatchDefaultIdentitySpec: #CloudWatchDatasourceSpec & {
+	proxy: cloudwatch.#Proxy & {
+		kind: "CloudWatchProxy"
+		spec: {
+			region: "us-east-1"
+		}
+	}
+}
+
+myCloudWatchAssumedRoleSpec: #CloudWatchDatasourceSpec & {
+	proxy: cloudwatch.#Proxy & {
+		kind: "CloudWatchProxy"
+		spec: {
+			region:           "eu-west-3"
+			roleArn:          "arn:aws:iam::123456789012:role/perses-read"
+			externalIdSecret: "cloudwatch-external-id"
+		}
+	}
+}
